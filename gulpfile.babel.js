@@ -167,6 +167,7 @@ gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
 gulp.task('deploy', () => {
   return gulp.src('./dist/**/*')
     .pipe($.ghPages({
+      remoteUrl: 'git@github.com:gameofbros/gameofbros.github.io.git',
       branch: 'master'
     }));
 });
