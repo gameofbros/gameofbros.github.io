@@ -172,6 +172,14 @@ gulp.task('deploy', () => {
     }));
 });
 
+gulp.task('deploy:local', () => {
+  return gulp.src('./dist/**/*')
+    .pipe($.ghPages({
+      // remoteUrl: 'git@github.com:gameofbros/gameofbros.github.io.git',
+      branch: 'master'
+    }));
+});
+
 gulp.task('default', ['clean'], () => {
   gulp.start('build');
 });
