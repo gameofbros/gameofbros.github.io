@@ -165,7 +165,7 @@ gulp.task('build', ['lint', 'html', 'images', 'fonts', 'extras'], () => {
 });
 
 gulp.task('deploy', () => {
-  gulp.src('dist/**/*')
+  gulp.src('./dist/**/*')
     .pipe($.ghPages());
 });
 
