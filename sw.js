@@ -25,36 +25,14 @@ toolbox.router.get('/sw.js', toolbox.networkOnly, { origin: ORIGIN_RULE });
 toolbox.router.get('/manifest.json', toolbox.networkOnly, { origin: ORIGIN_RULE });
 toolbox.router.get('/robots.txt', toolbox.networkOnly, { origin: ORIGIN_RULE });
 
-// Network only for Account and Checkout
-toolbox.router.get('/account*', toolbox.networkOnly, { origin: ORIGIN_RULE });
-toolbox.router.get('/checkout*', toolbox.networkOnly, { origin: ORIGIN_RULE });
-
 // Cache first for things with a GUID
 toolbox.router.get('/images*', toolbox.fastest, { origin: ORIGIN_RULE });
-toolbox.router.get('/bundles*', toolbox.fastest, { origin: ORIGIN_RULE });
 toolbox.router.get('/*fonts*', toolbox.fastest, { origin: ORIGIN_RULE }); // Font files don't change ofter, if at all
 toolbox.router.get('/*bower_components*', toolbox.fastest, { origin: ORIGIN_RULE }); // bower_components are libraries, they should not be modified - in the event of an update a CTRL+F5 will update it
 
 
 // Default cache rule
-toolbox.router.get('/(.*)', function (request, values, options) {
-    // networkFirst will attempt to return a response from the network,
-    // then attempt to return a response from the cache.
-    return toolbox.networkFirst(request, values, options).catch(function (error) {
-        // If both the network and the cache fail, then `.catch()` will be triggered,
-        // and we get a chance to respond with our cached fallback page.
-        // This would ideally check event.request.mode === 'navigate', but that isn't supported in
-        // Chrome as of M48. See https://fetch.spec.whatwg.org/#concept-request-mode
-        if (request.method === 'GET' && request.headers.get('accept').includes('text/html')) {
-            return toolbox.cacheOnly(new Request('/Offline'), values, options);
-        }
-
-        if (request.method === 'GET' && request.headers.get('accept').includes('application/json')) {
-            return toolbox.cacheOnly(new Request('/Offline/Json'), values, options);
-        }
-        throw error;
-    });
-}, {
+toolbox.router.get('/(.*)', toolbox.fastest, {
     origin: ORIGIN_RULE
 });
 
