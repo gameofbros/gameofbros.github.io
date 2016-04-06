@@ -120,7 +120,9 @@ self.addEventListener('notificationclick', function (event) {
     if (event.notification.data != null) {
         endUrl = event.notification.data.url;
     }
-    var tracking = "?utm_source=push_notification&utm_medium=push_notification&utm_campaign=" + event.notification.tag;
+    var tracking = "utm_source=push_notification&utm_medium=push_notification&utm_campaign=" + event.notification.tag;
+
+    var url_to_open = (endUrl.indexOf('?') != -1 ? endUrl + "&" + tracking : endUrl + "?" + tracking);
 
     if (event.action === 'archive') {
         //silentlyArchiveNotification();
@@ -145,7 +147,7 @@ self.addEventListener('notificationclick', function (event) {
                       return client.focus();
               }
               if (clients.openWindow) {
-                  return clients.openWindow(endUrl + tracking);
+                  return clients.openWindow(url_to_open);
               }
           })
         );
