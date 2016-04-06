@@ -22,10 +22,8 @@ toolbox.options.cache.name = 'Game of Bros';
 
 // No not cache the following files - always server from network
 toolbox.router.get('/sw.js', toolbox.networkOnly, { origin: ORIGIN_RULE });
-//toolbox.router.get('/misc/manifest.json', toolbox.networkOnly, { origin: ORIGIN_RULE });
+toolbox.router.get('/manifest.json', toolbox.networkOnly, { origin: ORIGIN_RULE });
 toolbox.router.get('/robots.txt', toolbox.networkOnly, { origin: ORIGIN_RULE });
-toolbox.router.get('/ajax/updateheader*', toolbox.networkOnly, { origin: ORIGIN_RULE });
-toolbox.router.get('/ajax/quickbuydropdown*', toolbox.networkOnly, { origin: ORIGIN_RULE });
 
 // Network only for Account and Checkout
 toolbox.router.get('/account*', toolbox.networkOnly, { origin: ORIGIN_RULE });
